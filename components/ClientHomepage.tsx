@@ -1,0 +1,210 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Search, Menu, X, Home, FileText, Book, HelpCircle, ChevronRight, ExternalLink } from 'lucide-react';
+import { Article } from '@/lib/types';
+import Link from 'next/link';
+
+interface ClientHomepageProps {
+  articles: Article[];
+}
+
+export default function ClientHomepage({ articles }: ClientHomepageProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', name: 'All', icon: Home },
+    { id: 'reviews', name: 'Reviews', icon: FileText },
+    { id: 'news', name: 'News', icon: FileText },
+    { id: 'guides', name: 'Guides', icon: Book },
+    { id: 'qa', name: 'Q&A', icon: HelpCircle }
+  ];
+
+  const filteredArticles = selectedCategory === 'all' 
+    ? articles 
+    : articles.filter(article => article.category === selectedCategory);
+
+  const featuredArticle = articles[0];
+
+  const getBadgeColor = (type: string) => {
+    return type === 'original' ? 'bg-purple-600' : 'bg-blue-600';
+  };
+
+  const getBadgeText = (article: Article) => {
+    if (article.type === 'original') {
+      return '📝 ORIGINAL';
+    }
+    return `📰 FROM ${article.source?.toUpperCase()}`;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Header */}
+      <header className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center">
+              <div className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                GameHub
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex space-x-8">
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition ${
+                    selectedCategory === cat.id
+                      ? 'bg-purple-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </nav>
+
+            {/* Search & Mobile Menu */}
+            <div className="flex items-center space-x-4">
+              <button className="p-2 rounded-lg hover:bg-gray-700 transition">
+                <Search size={20} />
+              </button>
+              <button 
+                className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden py-4 space-y-2">
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition ${
+                    selectedCategory === cat.id
+                      ? 'bg-purple-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Featured Article */}
+        {selectedCategory === 'all' && featuredArticle && (
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-6">Featured</h2>
+            <Link href={`/${featuredArticle.category}/${featuredArticle.slug}`}>
+              <div className="relative rounded-xl overflow-hidden group cursor-pointer">
+                <img 
+                  src={featuredArticle.image} 
+                  alt={featuredArticle.title}
+                  className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <span className={`inline-block px-3 py-1 ${getBadgeColor(featuredArticle.type)} rounded-full text-xs font-semibold mb-3`}>
+                    {getBadgeText(featuredArticle)}
+                  </span>
+                  <h3 className="text-4xl font-bold mb-3">{featuredArticle.title}</h3>
+                  <p className="text-gray-300 text-lg mb-4">{featuredArticle.excerpt}</p>
+                  <div className="flex items-center text-sm text-gray-400">
+                    <span>{featuredArticle.author}</span>
+                    <span className="mx-2">•</span>
+                    <span>{new Date(featuredArticle.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    <span className="mx-2">•</span>
+                    <span>{featuredArticle.platform}</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* Article Grid */}
+        <div>
+          <h2 className="text-3xl font-bold mb-6">
+            {selectedCategory === 'all' ? 'Latest Articles' : categories.find(c => c.id === selectedCategory)?.name}
+          </h2>
+          
+          {filteredArticles.length === 0 ? (
+            <div className="text-center py-12 text-gray-400">
+              <p className="text-xl">No articles yet in this category.</p>
+              <p className="mt-2">Check back soon for new content!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredArticles.map(article => (
+                <article 
+                  key={article.slug}
+                  className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300"
+                >
+                  <Link href={`/${article.category}/${article.slug}`}>
+                    <div className="relative cursor-pointer">
+                      <img 
+                        src={article.image} 
+                        alt={article.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <span className={`absolute top-3 left-3 px-3 py-1 ${getBadgeColor(article.type)} rounded-full text-xs font-semibold flex items-center gap-1`}>
+                        {getBadgeText(article)}
+                      </span>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-xl font-bold mb-2 line-clamp-2 hover:text-purple-400 transition">
+                        {article.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                        {article.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div>
+                          <span className="font-medium">{article.author}</span>
+                          <span className="mx-2">•</span>
+                          <span>{new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                        </div>
+                        {article.type === 'curated' ? (
+                          <ExternalLink size={16} className="text-blue-500" />
+                        ) : (
+                          <ChevronRight size={16} className="text-purple-500" />
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 border-t border-gray-700 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center text-gray-400 text-sm">
+            <p>© 2026 GameHub. Your ultimate gaming companion.</p>
+            <p className="mt-2">Reviews • News • Guides • Q&A</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
