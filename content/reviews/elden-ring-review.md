@@ -1,12 +1,13 @@
 ---
 title: "Elden Ring: Shadow of the Erdtree - Complete Review"
-author: "Your Name"
+author: "Nafiz Mazlan"
 date: "2026-01-15"
 category: "reviews"
 platform: "PC, PS5, Xbox"
-image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&h=450&fit=crop"
+image: "/images/reviews/elden-tree-review.jpg"
 excerpt: "FromSoftware's latest expansion delivers an epic adventure that rivals the base game in scope and challenge."
 type: "original"
+rating: 4
 ---
 
 ## Introduction

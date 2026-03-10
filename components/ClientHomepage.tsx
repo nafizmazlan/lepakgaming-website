@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Menu, X, Home, FileText, Book, HelpCircle, ChevronRight, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
+import { Search, Menu, X, Home, FileText, Book, HelpCircle, ChevronRight, ExternalLink, Gamepad2 } from 'lucide-react';
 import { Article } from '@/lib/types';
 import Link from 'next/link';
 
@@ -27,6 +28,22 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
 
   const featuredArticle = articles[0];
 
+  const renderRating = (rating?: number) => {
+    const safe = Math.max(0, Math.min(5, Number(rating ?? 0)));
+    return (
+      <span className="flex items-center gap-1">
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <Gamepad2
+            key={idx}
+            size={14}
+            className={idx < safe ? 'text-purple-400' : 'text-gray-600'}
+            strokeWidth={idx < safe ? 2.4 : 1.6}
+          />
+        ))}
+      </span>
+    );
+  };
+
   const getBadgeColor = (type: string) => {
     return type === 'original' ? 'bg-purple-600' : 'bg-blue-600';
   };
@@ -45,9 +62,17 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/images/logo.png"
+                alt="Lepak Gaming logo"
+                width={46}
+                height={46}
+                className="h-[46px] w-[46px] rounded-md object-contain"
+                priority
+              />
               <div className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                GameHub
+                Lepak Gaming
               </div>
             </Link>
 
@@ -136,6 +161,12 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
                     <span>{new Date(featuredArticle.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                     <span className="mx-2">•</span>
                     <span>{featuredArticle.platform}</span>
+                    {featuredArticle.category === 'reviews' && (
+                      <>
+                        <span className="mx-2">•</span>
+                        {renderRating(featuredArticle.rating)}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -184,6 +215,12 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
                           <span className="font-medium">{article.author}</span>
                           <span className="mx-2">•</span>
                           <span>{new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                          {article.category === 'reviews' && (
+                            <span className="ml-2 inline-flex items-center gap-2">
+                              <span className="text-gray-600">•</span>
+                              {renderRating(article.rating)}
+                            </span>
+                          )}
                         </div>
                         {article.type === 'curated' ? (
                           <ExternalLink size={16} className="text-blue-500" />
@@ -204,8 +241,8 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
       <footer className="bg-gray-800 border-t border-gray-700 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400 text-sm">
-            <p>© 2026 GameHub. Your ultimate gaming companion.</p>
-            <p className="mt-2">Reviews • News • Guides • Q&A</p>
+            <p>© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
+            <p className="mt-2">Reviews • News • Guides • Tips & Tricks</p>
           </div>
         </div>
       </footer>

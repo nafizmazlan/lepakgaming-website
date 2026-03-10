@@ -1,6 +1,6 @@
 # AGENTS
 
-Purpose-built reference for contributors to the GameHub website.
+Purpose-built reference for contributors to the Lepak Gaming website.
 
 ## Why (What this system does)
 - Next.js 16 (App Router) site that curates and publishes gaming content: reviews, news, guides, and Q&A.

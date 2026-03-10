@@ -39,6 +39,7 @@ export function getArticlesByCategory(category: string): Article[] {
         type: data.type || 'original',
         source: data.source,
         sourceUrl: data.sourceUrl,
+        rating: data.rating,
         content: content,
       } as Article;
     });
@@ -88,6 +89,7 @@ export async function getArticleBySlug(category: string, slug: string): Promise<
       type: data.type || 'original',
       source: data.source,
       sourceUrl: data.sourceUrl,
+      rating: data.rating,
       content: contentHtml,
     } as Article;
   } catch (error) {

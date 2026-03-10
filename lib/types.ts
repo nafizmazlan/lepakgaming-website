@@ -10,5 +10,6 @@ export interface Article {
   type: 'original' | 'curated';
   source?: string;
   sourceUrl?: string;
+  rating?: number;
   content: string;
 }

@@ -1,6 +1,7 @@
 import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar, User, Monitor, ExternalLink } from 'lucide-react';
 
 interface PageProps {
@@ -40,8 +41,18 @@ export default async function GuidePage({ params }: PageProps) {
       <header className="bg-gray-800 border-b border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
-            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              GameHub
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="Lepak Gaming logo"
+                width={46}
+                height={46}
+                className="h-[46px] w-[46px] rounded-md object-contain"
+                priority
+              />
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Lepak Gaming
+              </span>
             </Link>
           </div>
         </div>
@@ -128,8 +139,8 @@ export default async function GuidePage({ params }: PageProps) {
       <footer className="bg-gray-800 border-t border-gray-700 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400 text-sm">
-            <p>© 2026 GameHub. Your ultimate gaming companion.</p>
-            <p className="mt-2">Reviews • News • Guides • Q&A</p>
+            <p>© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
+            <p className="mt-2">Reviews • News • Guides • Tips & Tricks</p>
           </div>
         </div>
       </footer>
