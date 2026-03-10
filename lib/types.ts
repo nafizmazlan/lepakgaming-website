@@ -3,7 +3,7 @@ export interface Article {
   title: string;
   author: string;
   date: string;
-  category: 'reviews' | 'news' | 'guides' | 'qa';
+  category: 'reviews' | 'news' | 'guides' | 'tips-tricks';
   platform: string;
   image: string;
   excerpt: string;

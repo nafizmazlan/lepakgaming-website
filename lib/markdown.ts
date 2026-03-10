@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import remarkGfm from 'remark-gfm';
 import { Article } from './types';
 
 const contentDirectory = path.join(process.cwd(), 'content');
@@ -47,7 +48,7 @@ export function getArticlesByCategory(category: string): Article[] {
 
 // Get all articles from all categories
 export function getAllArticles(): Article[] {
-  const categories = ['reviews', 'news', 'guides', 'qa'];
+  const categories = ['reviews', 'news', 'guides', 'tips-tricks'];
   const allArticles: Article[] = [];
 
   categories.forEach(category => {
@@ -70,6 +71,7 @@ export async function getArticleBySlug(category: string, slug: string): Promise<
 
     // Convert markdown to HTML
     const processedContent = await remark()
+      .use(remarkGfm)
       .use(html)
       .process(content);
     const contentHtml = processedContent.toString();

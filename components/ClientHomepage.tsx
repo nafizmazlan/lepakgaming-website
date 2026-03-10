@@ -18,7 +18,7 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
     { id: 'reviews', name: 'Reviews', icon: FileText },
     { id: 'news', name: 'News', icon: FileText },
     { id: 'guides', name: 'Guides', icon: Book },
-    { id: 'qa', name: 'Q&A', icon: HelpCircle }
+    { id: 'tips-tricks', name: 'Tips & Tricks', icon: HelpCircle },
   ];
 
   const filteredArticles = selectedCategory === 'all' 
