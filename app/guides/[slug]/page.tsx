@@ -1,4 +1,4 @@
-import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
+﻿import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -11,10 +11,7 @@ interface PageProps {
 export async function generateStaticParams() {
   const articles = getAllArticles();
   const guides = articles.filter(article => article.category === 'guides');
-  
-  return guides.map((article) => ({
-    slug: article.slug,
-  }));
+  return guides.map(article => ({ slug: article.slug }));
 }
 
 export default async function GuidePage({ params }: PageProps) {
@@ -25,16 +22,8 @@ export default async function GuidePage({ params }: PageProps) {
     notFound();
   }
 
-  const getBadgeColor = (type: string) => {
-    return type === 'original' ? 'bg-purple-600' : 'bg-blue-600';
-  };
-
-  const getBadgeText = (article: any) => {
-    if (article.type === 'original') {
-      return '📝 ORIGINAL GUIDE';
-    }
-    return `📰 FROM ${article.source?.toUpperCase()}`;
-  };
+  const getBadgeColor = (type: string) => (type === 'original' ? 'bg-purple-600' : 'bg-blue-600');
+  const getBadgeText = (article: any) => (article.type === 'original' ? 'ORIGINAL GUIDE' : `FROM ${article.source?.toUpperCase()}`);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -42,17 +31,8 @@ export default async function GuidePage({ params }: PageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
             <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/images/logo.png"
-                alt="Lepak Gaming logo"
-                width={46}
-                height={46}
-                className="h-[46px] w-[46px] rounded-md object-contain"
-                priority
-              />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Lepak Gaming
-              </span>
+              <Image src="/images/logo.png" alt="Lepak Gaming logo" width={46} height={46} className="h-[46px] w-[46px] rounded-md object-contain" priority />
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Lepak Gaming</span>
             </Link>
           </div>
         </div>
@@ -70,9 +50,7 @@ export default async function GuidePage({ params }: PageProps) {
           </span>
         </div>
 
-        <h1 className="text-5xl font-bold mb-6 leading-tight">
-          {article.title}
-        </h1>
+        <h1 className="text-5xl font-bold mb-6 leading-tight">{article.title}</h1>
 
         <div className="flex flex-wrap gap-6 text-gray-400 mb-8 pb-8 border-b border-gray-700">
           <div className="flex items-center gap-2">
@@ -90,14 +68,10 @@ export default async function GuidePage({ params }: PageProps) {
         </div>
 
         <div className="mb-8 rounded-xl overflow-hidden">
-          <img 
-            src={article.image} 
-            alt={article.title}
-            className="w-full h-96 object-cover"
-          />
+          <img src={article.image} alt={article.title} className="w-full h-96 object-cover" />
         </div>
 
-        <div 
+        <div
           className="
             [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-12 [&_h2]:mb-4
             [&_h3]:text-2xl [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-8 [&_h3]:mb-3
@@ -113,16 +87,14 @@ export default async function GuidePage({ params }: PageProps) {
 
         {article.type === 'curated' && article.sourceUrl && (
           <div className="mt-12 p-6 bg-gray-800 rounded-xl border border-gray-700">
-            <p className="text-gray-400 mb-4">
-              This guide was curated from {article.source}. Read the original article for the complete guide.
-            </p>
-            <a 
+            <p className="text-gray-400 mb-4">This article was curated from {article.source}. Read the original article for the complete story.</p>
+            <a
               href={article.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition"
             >
-              Read Full Guide on {article.source}
+              Read Full Article on {article.source}
               <ExternalLink size={18} />
             </a>
           </div>

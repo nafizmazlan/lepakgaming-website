@@ -1,4 +1,4 @@
-import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
+ï»¿import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -125,8 +125,8 @@ export default async function ReviewPage({ params }: PageProps) {
       <footer className="bg-gray-800 border-t border-gray-700 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400 text-sm">
-            <p>© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
-            <p className="mt-2">Reviews • News • Guides • Tips & Tricks</p>
+            <p>Â© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
+            <p className="mt-2">Reviews â€¢ News â€¢ Guides â€¢ Tips & Tricks</p>
           </div>
         </div>
       </footer>
