@@ -42,3 +42,6 @@ next-env.d.ts
 
 #docs
 /docs/assets.html
+
+# AI Tools - Not part of website
+AGENTS.md
