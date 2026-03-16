@@ -1,9 +1,9 @@
-﻿import { getArticleBySlug, getAllArticles } from "@/lib/markdown";
+import { getArticleBySlug, getAllArticles } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, Calendar, User, Monitor, ExternalLink, Gamepad2, Home, Search } from "lucide-react";
+import { ArrowLeft, Calendar, User, Monitor, ExternalLink, Gamepad2 } from "lucide-react";
 import Breadcrumb from "@/components/Breadcrumb";
+import SiteHeader from "@/components/SiteHeader";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -26,43 +26,10 @@ export default async function ReviewPage({ params }: PageProps) {
   const getBadgeColor = (type: string) => (type === "original" ? "bg-purple-600" : "bg-blue-600");
   const getBadgeText = (article: any) => (article.type === "original" ? "ORIGINAL REVIEW" : `FROM ${article.source?.toUpperCase()}`);
   const rating = Math.max(0, Math.min(5, Number(article.rating ?? 0)));
-  const categories = [
-    { id: "home", name: "Home", href: "/", icon: Home },
-    { id: "reviews", name: "Reviews", href: "/reviews" },
-    { id: "news", name: "News", href: "/news" },
-    { id: "guides", name: "Guides", href: "/guides" },
-    { id: "tips-tricks", name: "Tips & Tricks", href: "/tips-tricks" },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <header className="bg-gray-800 border-b border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 h-16">
-            <Link href="/" className="flex items-center gap-3">
-              <Image src="/images/logo.png" alt="Lepak Gaming logo" width={46} height={46} className="h-[46px] w-[46px] rounded-md object-contain" priority />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Lepak Gaming</span>
-            </Link>
-            <nav className="flex flex-1 items-center justify-center gap-2 text-sm">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={cat.href}
-                  className={`px-3 py-2 rounded-md font-medium transition flex items-center gap-2 ${
-                    cat.id === "reviews" ? "bg-purple-600 text-white" : "text-gray-300 hover:bg-gray-700"
-                  }`}
-                >
-                  {cat.icon && <cat.icon size={16} aria-hidden className="shrink-0" />}
-                  {!cat.icon && cat.name}
-                </Link>
-              ))}
-            </nav>
-            <button className="p-2 rounded-lg hover:bg-gray-700 transition text-gray-200">
-              <Search size={20} />
-            </button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader activeCategory="reviews" />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Link href="/" className="inline-flex items-center text-purple-400 hover:text-purple-300 mb-8 transition">
@@ -158,8 +125,8 @@ export default async function ReviewPage({ params }: PageProps) {
       <footer className="bg-gray-800 border-t border-gray-700 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400 text-sm">
-            <p>© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
-            <p className="mt-2">Reviews • News • Guides • Tips & Tricks</p>
+            <p>� 2026 Lepak Gaming. Buat apa tu? Main game.</p>
+            <p className="mt-2">Reviews � News � Guides � Tips & Tricks</p>
           </div>
         </div>
       </footer>

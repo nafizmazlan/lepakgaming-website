@@ -1,23 +1,9 @@
 ﻿"use client";
 
-import React, { useMemo, useState } from "react";
-import Image from "next/image";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Search,
-  Menu,
-  X,
-  Home,
-  FileText,
-  Book,
-  HelpCircle,
-  ChevronRight,
-  ExternalLink,
-  Gamepad2,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronRight, ExternalLink, Gamepad2, ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -25,21 +11,21 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { Article } from "@/lib/types";
+import SiteHeader from "./SiteHeader";
 
 interface ClientHomepageProps {
   articles: Article[];
 }
 
 export default function ClientHomepage({ articles }: ClientHomepageProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const categories = [
-    { id: "all", name: "All", icon: Home, href: "/" },
-    { id: "reviews", name: "Reviews", icon: FileText, href: "/reviews" },
-    { id: "news", name: "News", icon: FileText, href: "/news" },
-    { id: "guides", name: "Guides", icon: Book, href: "/guides" },
-    { id: "tips-tricks", name: "Tips & Tricks", icon: HelpCircle, href: "/tips-tricks" },
+    { id: "all", name: "All", href: "/" },
+    { id: "reviews", name: "Reviews", href: "/reviews" },
+    { id: "news", name: "News", href: "/news" },
+    { id: "guides", name: "Guides", href: "/guides" },
+    { id: "tips-tricks", name: "Tips & Tricks", href: "/tips-tricks" },
   ];
 
   const activeCategory = useMemo(() => {
@@ -82,81 +68,7 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/images/logo.png"
-                alt="Lepak Gaming logo"
-                width={46}
-                height={46}
-                className="h-[46px] w-[46px] rounded-md object-contain"
-                priority
-              />
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Lepak Gaming
-              </div>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={cat.href}
-                  aria-label={cat.id === "all" ? "Home" : cat.name}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center justify-center gap-2 ${
-                    activeCategory === cat.id
-                      ? "bg-purple-600 text-white"
-                      : "text-gray-300 hover:bg-gray-700"
-                  }`}
-                >
-                  {cat.id === "all" ? <Home size={18} aria-hidden /> : cat.name}
-                  {cat.id === "all" && <span className="sr-only">Home</span>}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Search & Mobile Menu */}
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-700 transition">
-                <Search size={20} />
-              </button>
-              <button
-                className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden py-4 space-y-2">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={cat.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  aria-label={cat.id === "all" ? "Home" : cat.name}
-                  className={`w-full block px-3 py-2 rounded-md text-sm font-medium transition flex items-center gap-2 ${
-                    activeCategory === cat.id
-                      ? "bg-purple-600 text-white"
-                      : "text-gray-300 hover:bg-gray-700"
-                  }`}
-                >
-                  {cat.id === "all" ? <Home size={18} aria-hidden /> : cat.name}
-                  {cat.id === "all" && <span className="sr-only">Home</span>}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </header>
+      <SiteHeader activeCategory={activeCategory} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
