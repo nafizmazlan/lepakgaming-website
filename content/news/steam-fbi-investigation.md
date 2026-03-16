@@ -47,5 +47,3 @@ As this is a developing story, more information is expected to emerge in the com
 ---
 
 **Stay tuned to Lepak Gaming for updates on this developing story.**
-
-[Read the full story on Game Rant →](https://gamerant.com/steam-malware-fbi-investigation/)
