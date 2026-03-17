@@ -107,14 +107,16 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-8">
-                          <span
-                            className={`inline-block px-3 py-1 ${getBadgeColor(article.type)} rounded-full text-xs font-semibold mb-3`}
-                          >
+                          <span className={`inline-block px-3 py-1 ${getBadgeColor(article.type)} rounded-full text-xs font-semibold mb-3`}>
                             {getBadgeText(article)}
                           </span>
-                          <h3 className="text-4xl font-bold mb-3">{article.title}</h3>
-                          <p className="text-gray-300 text-lg mb-4">{article.excerpt}</p>
-                          <div className="flex items-center text-sm text-gray-400">
+                          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-2 sm:mb-4 line-clamp-2 md:line-clamp-3">
+                            {article.excerpt}
+                          </p>
+                          <div className="flex items-center text-xs sm:text-sm text-gray-400">
                             <span>{article.author}</span>
                             <span className="mx-2">•</span>
                             <span>
