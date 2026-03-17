@@ -5,6 +5,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import remarkGfm from 'remark-gfm';
 import { Article } from './types';
+import { calculateReadingTime } from './readingTime';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
@@ -32,7 +33,7 @@ export function getArticlesByCategory(category: string): Article[] {
         title: data.title,
         author: data.author,
         date: data.date,
-        category: category as 'reviews' | 'news' | 'guides' | 'qa',
+        category: category as 'reviews' | 'news' | 'guides' | 'tips-tricks',
         platform: data.platform,
         image: data.image,
         excerpt: data.excerpt || content.substring(0, 150) + '...',
@@ -41,6 +42,7 @@ export function getArticlesByCategory(category: string): Article[] {
         sourceUrl: data.sourceUrl,
         rating: data.rating,
         content: content,
+        readingTime: calculateReadingTime(content),
       } as Article;
     });
 
@@ -82,7 +84,7 @@ export async function getArticleBySlug(category: string, slug: string): Promise<
       title: data.title,
       author: data.author,
       date: data.date,
-      category: category as 'reviews' | 'news' | 'guides' | 'qa',
+      category: category as 'reviews' | 'news' | 'guides' | 'tips-tricks',
       platform: data.platform,
       image: data.image,
       excerpt: data.excerpt || content.substring(0, 150) + '...',
@@ -91,6 +93,7 @@ export async function getArticleBySlug(category: string, slug: string): Promise<
       sourceUrl: data.sourceUrl,
       rating: data.rating,
       content: contentHtml,
+      readingTime: calculateReadingTime(content),
     } as Article;
   } catch (error) {
     return null;

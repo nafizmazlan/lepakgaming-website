@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Article } from "@/lib/types";
-import { ExternalLink, ChevronRight } from "lucide-react";
+import { ExternalLink, ChevronRight, Gamepad2 } from "lucide-react";
 import SiteHeader, { CategoryId } from "./SiteHeader";
 
 interface CategoryPageProps {
@@ -13,8 +13,30 @@ interface CategoryPageProps {
   description: string;
 }
 
-export default function CategoryPage({ articles, category, title, description }: CategoryPageProps) {
-  const getBadgeColor = (type: string) => (type === "original" ? "bg-purple-600" : "bg-blue-600");
+export default function CategoryPage({
+  articles,
+  category,
+  title,
+  description,
+}: CategoryPageProps) {
+  const renderRating = (rating?: number) => {
+    const safe = Math.max(0, Math.min(5, Number(rating ?? 0)));
+    return (
+      <span className="flex items-center gap-1">
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <Gamepad2
+            key={idx}
+            size={14}
+            className={idx < safe ? "text-purple-400" : "text-gray-600"}
+            strokeWidth={idx < safe ? 2.4 : 1.6}
+          />
+        ))}
+      </span>
+    );
+  };
+
+  const getBadgeColor = (type: string) =>
+    type === "original" ? "bg-purple-600" : "bg-blue-600";
 
   const getBadgeText = (article: Article) => {
     if (article.type === "original") return "ORIGINAL";
@@ -59,7 +81,7 @@ export default function CategoryPage({ articles, category, title, description }:
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map(article => (
+            {articles.map((article) => (
               <article
                 key={article.slug}
                 className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300"
@@ -81,14 +103,29 @@ export default function CategoryPage({ articles, category, title, description }:
                     <h3 className="text-xl font-bold mb-2 line-clamp-2 hover:text-purple-400 transition">
                       {article.title}
                     </h3>
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                      {article.excerpt}
-                    </p>
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">{article.excerpt}</p>
                     <div className="flex items-center justify-between text-xs text-gray-500">
                       <div>
                         <span className="font-medium">{article.author}</span>
-                        <span className="mx-2">|</span>
-                        <span>{new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                        <span className="mx-2">•</span>
+                        <span>
+                          {new Date(article.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        {article.readingTime && (
+                          <>
+                            <span className="mx-2">•</span>
+                            <span className="text-purple-400">⏱ {article.readingTime} min read</span>
+                          </>
+                        )}
+                        {article.category === "reviews" && (
+                          <span className="ml-2 inline-flex items-center gap-2">
+                            <span className="text-gray-600">•</span>
+                            {renderRating(article.rating)}
+                          </span>
+                        )}
                       </div>
                       {article.type === "curated" ? (
                         <ExternalLink size={16} className="text-blue-500" />
@@ -108,8 +145,8 @@ export default function CategoryPage({ articles, category, title, description }:
       <footer className="bg-gray-800 border-t border-gray-700 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400 text-sm">
-            <p>� 2026 Lepak Gaming. Buat apa tu? Main game.</p>
-            <p className="mt-2">Reviews � News � Guides � Tips & Tricks</p>
+            <p>© 2026 Lepak Gaming. Buat apa tu? Main game.</p>
+            <p className="mt-2">Reviews • News • Guides • Tips & Tricks</p>
           </div>
         </div>
       </footer>

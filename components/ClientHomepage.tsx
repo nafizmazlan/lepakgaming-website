@@ -126,6 +126,12 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
                             </span>
                             <span className="mx-2">•</span>
                             <span>{article.platform}</span>
+                            {article.readingTime && (
+                              <>
+                                <span className="mx-2">•</span>
+                                <span className="text-purple-200">⏱ {article.readingTime} min read</span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -199,6 +205,12 @@ export default function ClientHomepage({ articles }: ClientHomepageProps) {
                               day: "numeric",
                             })}
                           </span>
+                          {article.readingTime && (
+                            <>
+                              <span className="mx-2">•</span>
+                              <span className="text-purple-400">⏱ {article.readingTime} min read</span>
+                            </>
+                          )}
                           {article.category === "reviews" && (
                             <span className="ml-2 inline-flex items-center gap-2">
                               <span className="text-gray-600">•</span>

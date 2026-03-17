@@ -12,4 +12,5 @@ export interface Article {
   sourceUrl?: string;
   rating?: number;
   content: string;
+  readingTime?: number;
 }

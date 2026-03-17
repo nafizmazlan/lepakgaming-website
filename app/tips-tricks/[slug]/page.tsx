@@ -65,6 +65,12 @@ export default async function TipsTricksPage({ params }: PageProps) {
             <Monitor size={18} />
             <span>{article.platform}</span>
           </div>
+          {article.readingTime && (
+            <div className="flex items-center gap-2">
+              <span className="text-lg">⏱</span>
+              <span className="text-purple-400 font-medium">{article.readingTime} min read</span>
+            </div>
+          )}
         </div>
 
         <div className="mb-8 rounded-xl overflow-hidden">
